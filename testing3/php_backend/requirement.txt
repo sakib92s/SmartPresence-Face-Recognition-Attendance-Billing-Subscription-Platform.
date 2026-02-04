@@ -1,0 +1,18 @@
+# --- Core Dependencies ---
+mysql-connector-python==8.0.33
+opencv-python==4.10.0.84
+numpy==1.26.4
+pandas==2.2.2
+pillow==10.4.0
+pyttsx3==2.90
+openpyxl==3.1.5
+reportlab==4.2.2
+
+# --- Optional / Additional Tools ---
+dlib==19.24.2
+scikit-learn==1.5.1
+tensorflow==2.16.1
+keras==3.3.3
+
+# --- GUI and Utility Libraries ---
+tk

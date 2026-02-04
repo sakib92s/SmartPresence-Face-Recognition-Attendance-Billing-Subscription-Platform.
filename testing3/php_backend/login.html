@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Face Recognition Presence System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --light: #f1f1f1;
+            --dark: #0d0d1a;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .security-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(233, 69, 96, 0.1) 0%, transparent 15%),
+                radial-gradient(circle at 80% 70%, rgba(15, 52, 96, 0.1) 0%, transparent 15%),
+                radial-gradient(circle at 50% 20%, rgba(26, 26, 46, 0.1) 0%, transparent 15%);
+            z-index: -1;
+        }
+        
+        .login-container {
+            background: rgba(15, 20, 35, 0.7);
+            border-radius: 15px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent), var(--highlight));
+            box-shadow: 0 0 10px var(--highlight);
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .logo-icon {
+            font-size: 4rem;
+            color: var(--highlight);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(233, 69, 96, 0.5);
+        }
+        
+        .logo-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--light), var(--highlight));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .tagline {
+            font-size: 1.1rem;
+            color: #a0a7c2;
+            margin-bottom: 2rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            position: relative;
+        }
+        
+        .form-group i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--highlight);
+            font-size: 1.2rem;
+            z-index: 2;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 16px 20px 16px 55px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(10, 15, 30, 0.6);
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--highlight);
+            background: rgba(15, 20, 40, 0.8);
+            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.3);
+        }
+        
+        .form-input::placeholder {
+            color: #6a7a9e;
+        }
+        
+        .login-btn {
+            background: linear-gradient(to right, var(--accent), var(--highlight));
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .login-btn i {
+            margin-right: 8px;
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin-top: 1.8rem;
+            color: #8a93b0;
+            font-size: 0.95rem;
+        }
+        
+        .signup-link a {
+            color: var(--highlight);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-left: 5px;
+        }
+        
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .security-features {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+            padding: 15px;
+            background: rgba(10, 15, 30, 0.4);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .feature {
+            text-align: center;
+        }
+        
+        .feature i {
+            font-size: 1.5rem;
+            color: var(--highlight);
+            margin-bottom: 8px;
+        }
+        
+        .feature span {
+            font-size: 0.8rem;
+            color: #8a93b0;
+        }
+        
+        footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: #6a7a9e;
+            font-size: 0.9rem;
+            z-index: 1;
+        }
+        
+        /* Animation Effects */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .logo-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 2rem;
+            }
+            
+            .logo-title {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .security-features {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 1.5rem;
+            }
+            
+            .logo-title {
+                font-size: 1.8rem;
+            }
+            
+            .logo-icon {
+                font-size: 3rem;
+            }
+            
+            .form-input {
+                padding-left: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="security-overlay"></div>
+    
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <i class="fas fa-fingerprint"></i>
+            </div>
+            <h1 class="logo-title">Secure Access</h1>
+            <p class="tagline">Advanced Face Recognition Presence System</p>
+        </div>
+        
+        <form class="login-form" action="login.php" method="post">
+            <div class="form-group">
+                <i class="fas fa-building"></i>
+                <input type="text" name="OrgEmail" id="OrgEmail" class="form-input" placeholder="Organization Email" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-key"></i>
+                <input type="password" name="OrgPass1" id="OrgPass1" class="form-input" placeholder="Password" required>
+            </div>
+            
+            <button type="submit" class="login-btn">
+                <i class="fas fa-lock-open"></i> Authenticate
+            </button>
+        </form>
+        
+        <div class="signup-link">
+            <p>Don't have an account? <a href="register.php">Sign Up Now</a></p>
+        </div>
+        
+        <div class="security-features">
+            <div class="feature">
+                <i class="fas fa-shield-alt"></i>
+                <span>Encrypted</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-user-lock"></i>
+                <span>Secure</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-video"></i>
+                <span>Face ID</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-biohazard"></i>
+                <span>Biometric</span>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Face Recognition Presence System | TYBBA(CA) Sem V Project</p>
+        <p>© 2025 Developed by Sakib Shaikh & Swapnil Salunke</p>
+    </footer>
+</body>
+</html>

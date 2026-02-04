@@ -1,0 +1,185 @@
+🧭 PROJECT WORKING GUIDE — FACE RECOGNITION ATTENDANCE SYSTEM
+📘 Project Overview
+
+The Face Recognition Attendance System (Advanced Version) is a hybrid project combining PHP (Web Portal) and Python (Face Recognition System).
+It allows organizations to manage employees, record attendance using a webcam, and store all records securely in a MySQL database.
+
+The system works in two main parts:
+
+🌐 Web Portal (HTML, CSS, JS, PHP, MySQL) — for organization and employee management
+
+🧠 Python GUI (Tkinter + OpenCV) — for face registration, image training, and attendance marking
+
+⚙️ Project Flow & Working
+🏁 1. Start from start.html
+
+The entry point of the system is start.html.
+
+From here, a new organization can register if not already registered.
+
+Existing organizations can log in directly.
+
+🏢 2. Organization Registration
+
+On the registration page, fill in organization details including:
+
+Organization Name
+
+Email Address
+
+Mobile Number
+
+Password
+
+When a mobile number is entered, an OTP will be sent for verification.
+
+📱 Important:
+To send OTP messages, you need to purchase an SMS API from Renflair SMS Gateway
+.
+
+Once the OTP is verified successfully, the organization details are saved in the MySQL database.
+
+🔐 3. Organization Login
+
+After successful registration, log in with your email and password.
+
+You will be redirected to the main dashboard.
+
+🧑‍💼 4. Add New Employee (HR Panel)
+
+In the dashboard, click on Add New Employee.
+
+The HR login page will appear — enter your HR credentials.
+
+Then, the Employee Registration Form will open.
+
+Enter employee details such as:
+
+Employee ID
+
+Name
+
+Department
+
+Mobile Number (for OTP verification)
+
+Email, etc.
+
+Just like the organization registration, this step also uses OTP verification via SMS API.
+
+Once verified, the employee will be added to the database.
+
+🔎 5. Search & Manage Employees
+
+From the dashboard, you can search employees by name, ID, or department.
+
+You can also view, edit, or remove employee details.
+
+🧠 Python Section (Face Recognition System)
+🐍 6. Run the Python Script
+
+Open your project folder and run the main script:
+
+python main.py
+
+
+A Tkinter login window will appear.
+
+🔑 7. Python Login (Organization Credentials)
+
+Login using the same email and password you used during organization registration on the web portal.
+
+This ensures that only the registered organization can access the attendance module.
+
+🧍‍♂️ 8. Add Employee (Face Capture)
+
+After login, select the option “Add Employee”.
+
+Enter:
+
+Employee ID (must match the ID in the database)
+
+Employee Name (same as in the database)
+
+Once verified, click Capture Image.
+
+The webcam will open and automatically capture 30 images of the employee.
+
+These images will be stored inside the faces/ directory.
+
+After capturing, the system will automatically train the model for that employee.
+
+⏰ 9. Take Attendance
+
+Go back to the main Tkinter window and click Take Attendance.
+
+The webcam will open and start scanning faces in real time.
+
+When a registered face is recognized:
+
+Attendance is marked in an Excel file with:
+
+Employee ID
+
+Name
+
+Date
+
+Time stamp
+
+Voice feedback (using pyttsx3) confirms successful marking.
+
+The file is stored under attendance_reports/.
+
+📅 10. Joining Record
+
+When a new employee joins, the system automatically creates a separate Excel file named for the joining record.
+
+This helps maintain a log of all new entries.
+
+🧾 Output Files Generated
+
+Attendance Excel File → Contains daily attendance records
+
+Employee Joining File → Contains joining details of each employee
+
+Both files are stored under:
+
+PHP-BACKEND/attendance_reports/
+
+💡 Important Notes
+
+Ensure the camera is connected and has proper lighting.
+
+OTP feature will not work without a valid Renflair SMS API key.
+
+Python and PHP must be connected to the same MySQL database.
+
+Before running the Python app, ensure your XAMPP (Apache + MySQL) server is running.
+
+If you add new employees, always retrain the model before taking attendance.
+
+🔧 Tech Stack Summary
+Component	Technology
+Frontend	HTML5, CSS3, JavaScript, Bootstrap
+Backend (Web)	PHP, MySQL
+Backend (AI)	Python 3.8+, OpenCV, Dlib
+Database	MySQL
+GUI	Tkinter
+Voice Output	pyttsx3
+Reports	Pandas, OpenPyXL, ReportLab
+OTP Service	Renflair SMS Gateway API
+Local Server	XAMPP / WAMP
+🧩 Summary of Workflow
+
+Organization registers and verifies via OTP → stored in database
+
+HR adds employees with OTP verification → employees stored in database
+
+Python GUI uses same credentials → allows employee face registration
+
+Face images captured → trained automatically → stored in system
+
+During attendance → recognized faces → attendance marked automatically
+
+Data saved in Excel and database with timestamp

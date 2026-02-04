@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Face Recognition Presence System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #1abc9c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), #1a2530);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Background Animation Elements */
+        .background-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .square {
+            position: absolute;
+            background: rgba(52, 152, 219, 0.05);
+            animation: rotate 20s infinite linear;
+        }
+        
+        .triangle {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-color: transparent transparent rgba(26, 188, 156, 0.05) transparent;
+            animation: float 18s infinite ease-in-out reverse;
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(26, 37, 48, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-right: 1rem;
+        }
+        
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #bdc3c7;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-links a.active {
+            color: white;
+            background: var(--accent);
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 7rem auto 3rem;
+            padding: 2rem;
+            z-index: 10;
+            position: relative;
+        }
+        
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .page-tagline {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #bdc3c7;
+        }
+        
+        /* Content Sections */
+        .about-section {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .section-content {
+            line-height: 1.8;
+            color: #ecf0f1;
+        }
+        
+        .section-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(26, 188, 156, 0.15);
+        }
+        
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--accent);
+        }
+        
+        /* Workflow Section */
+        .workflow-steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .workflow-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 1;
+        }
+        
+        .step {
+            position: relative;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            padding: 1rem;
+            z-index: 2;
+        }
+        
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--accent);
+            color: var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+            border: 5px solid var(--primary);
+        }
+        
+        .step-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            height: 100%;
+        }
+        
+        .step-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--accent);
+        }
+        
+        /* Benefits Section */
+        .benefits-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+        
+        .benefits-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .benefits-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .benefits-list li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: var(--accent);
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #95a5a6;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(10px, 15px);
+            }
+            50% {
+                transform: translate(-5px, 20px);
+            }
+            75% {
+                transform: translate(15px, -10px);
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .logo-container {
+                margin-bottom: 1rem;
+            }
+            
+            .container {
+                margin-top: 9rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .page-tagline {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .workflow-steps {
+                flex-direction: column;
+            }
+            
+            .workflow-steps::before {
+                display: none;
+            }
+            
+            .step {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Elements -->
+    <div class="background-elements">
+        <div class="circle" style="width: 300px; height: 300px; top: 10%; left: 5%;"></div>
+        <div class="circle" style="width: 150px; height: 150px; top: 70%; left: 80%;"></div>
+        <div class="square" style="width: 200px; height: 200px; top: 20%; left: 85%;"></div>
+        <div class="square" style="width: 120px; height: 120px; top: 65%; left: 10%;"></div>
+        <div class="triangle" style="border-width: 0 100px 170px 100px; top: 40%; left: 25%;"></div>
+        <div class="triangle" style="border-width: 0 70px 120px 70px; top: 80%; left: 70%;"></div>
+    </div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <i class="fas fa-camera nav-logo"></i>
+            <div class="brand">Face Recognition Presence</div>
+        </div>
+        <div class="nav-links">
+            <a href="Dashboard.php"><i class="fas fa-home"></i> Home</a>
+            <a href="about.html" class="active"><i class="fas fa-info-circle"></i> About</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1>About Our Project</h1>
+            <p class="page-tagline">Learn how our Face Recognition Presence System is transforming attendance management</p>
+        </div>
+        
+        <div class="about-section">
+            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Project Overview</h2>
+            <div class="section-content">
+                <p>The Face Recognition Presence System is an innovative solution designed to revolutionize traditional attendance tracking methods. Developed as part of our TYBBA(CA) Sem V project, this system leverages cutting-edge facial recognition technology to automate and streamline attendance management.</p>
+                
+                <p>Our project addresses the inefficiencies of manual attendance systems by providing a contactless, accurate, and time-saving solution. By utilizing OpenCV and machine learning algorithms, we've created a system that can identify individuals in real-time with over 98% accuracy.</p>
+                
+                <p>This technology has wide-ranging applications in educational institutions, corporate offices, events management, and any environment requiring efficient attendance tracking.</p>
+            </div>
+        </div>
+        
+        <div class="about-section">
+            <h2 class="section-title"><i class="fas fa-bullseye"></i> Project Objectives</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-robot"></i>
+                    <h3>Automated Attendance</h3>
+                    <p>Eliminate manual attendance processes with fully automated facial recognition-based tracking.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-user-shield"></i>
+                    <h3>Proxy Prevention</h3>
+                    <p>Prevent fraudulent attendance with our anti-spoofing detection technology.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Real-time Processing</h3>
+                    <p>Process attendance in real-time with minimal delay for large groups.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Data Analytics</h3>
+                    <p>Provide comprehensive analytics on attendance patterns and trends.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Multi-platform</h3>
+                    <p>Access the system through web browsers and mobile applications.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Security Focused</h3>
+                    <p>Ensure data privacy with secure storage and encryption protocols.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-section">
+            <h2 class="section-title"><i class="fas fa-cogs"></i> How It Works</h2>
+            <div class="workflow-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Registration</h3>
+                        <p>Users register their facial data through a simple enrollment process with their device camera.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Detection</h3>
+                        <p>During attendance sessions, the system detects faces in real-time using the camera feed.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Recognition</h3>
+                        <p>Facial features are analyzed and matched against the registered database using our algorithms.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Verification</h3>
+                        <p>Additional verification methods like QR codes or ID cards prevent false positives.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Recording</h3>
+                        <p>Attendance data with timestamps is securely stored in the database.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-section">
+            <h2 class="section-title"><i class="fas fa-chart-bar"></i> Key Benefits</h2>
+            <div class="section-content">
+                <ul class="benefits-list">
+                    <li><strong>Time Efficiency:</strong> Reduces attendance time by up to 90% compared to traditional methods</li>
+                    <li><strong>Accuracy:</strong> Achieves 98% recognition accuracy in controlled environments</li>
+                    <li><strong>Cost Savings:</strong> Eliminates the need for physical attendance hardware and personnel</li>
+                    <li><strong>Contactless:</strong> Hygienic solution ideal for post-pandemic environments</li>
+                    <li><strong>Scalability:</strong> Supports organizations of any size, from small classes to large corporations</li>
+                    <li><strong>Integration:</strong> Easily integrates with existing HR and management systems</li>
+                    <li><strong>Analytics:</strong> Provides valuable insights into attendance patterns and behaviors</li>
+                    <li><strong>Accessibility:</strong> Accessible through web browsers and mobile devices</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="about-section">
+            <h2 class="section-title"><i class="fas fa-road"></i> Future Development</h2>
+            <div class="section-content">
+                <p>We're continuously improving the Face Recognition Presence System with these planned enhancements:</p>
+                
+                <ul class="benefits-list">
+                    <li>Mobile application for on-the-go attendance management</li>
+                    <li>Integration with existing educational and HR platforms</li>
+                    <li>Advanced analytics dashboard with predictive capabilities</li>
+                    <li>Multi-factor authentication including facial + voice recognition</li>
+                    <li>AI-powered anomaly detection for attendance patterns</li>
+                    <li>Enhanced security features using blockchain technology</li>
+                    <li>Support for larger databases with improved processing speed</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Face Recognition Presence System | TYBBA(CA) Sem V Project</p>
+        <p>© 2025 Developed by Sakib Shaikh & Swapnil Salunke | Guided by Prof. Ashvini Tanpure</p>
+    </footer>
+    
+    <script>
+        function createBackgroundElements() {
+            const container = document.querySelector('.background-elements');
+            const types = ['circle', 'square', 'triangle'];
+            const colors = [
+                'rgba(26, 188, 156, 0.05)',
+                'rgba(52, 152, 219, 0.05)',
+                'rgba(155, 89, 182, 0.05)',
+                'rgba(231, 76, 60, 0.05)'
+            ];
+            
+            for (let i = 0; i < 8; i++) {
+                const type = types[Math.floor(Math.random() * types.length)];
+                const element = document.createElement('div');
+                element.className = type;
+                
+                // Random size
+                const size = Math.random() * 150 + 50;
+                
+                // Random position
+                const top = Math.random() * 100;
+                const left = Math.random() * 100;
+                
+                // Random animation duration
+                const duration = Math.random() * 20 + 10;
+                
+                // Set styles
+                element.style.width = `${size}px`;
+                element.style.height = type === 'triangle' ? '0' : `${size}px`;
+                
+                if (type === 'triangle') {
+                    const borderWidth = size / 2;
+                    element.style.borderWidth = `0 ${borderWidth}px ${size}px ${borderWidth}px`;
+                    element.style.borderColor = `transparent transparent ${colors[Math.floor(Math.random() * colors.length)]} transparent`;
+                } else {
+                    element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                }
+                
+                element.style.top = `${top}%`;
+                element.style.left = `${left}%`;
+                element.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                element.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(element);
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createBackgroundElements();
+            
+            // Add animation to sections on scroll
+            const sections = document.querySelectorAll('.about-section');
+            sections.forEach((section, index) => {
+                // Add slight delay to each section
+                section.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+    </script>
+</body>
+</html>

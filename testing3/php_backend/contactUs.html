@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Face Recognition Presence System</title>
+    <link rel="shortcut icon" href="contactuslogo.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #1abc9c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), #1a2530);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Background Animation Elements */
+        .background-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .square {
+            position: absolute;
+            background: rgba(52, 152, 219, 0.05);
+            animation: rotate 20s infinite linear;
+        }
+        
+        .triangle {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-color: transparent transparent rgba(26, 188, 156, 0.05) transparent;
+            animation: float 18s infinite ease-in-out reverse;
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            z-index: 10;
+            position: relative;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: #bdc3c7;
+        }
+        
+        /* Contact Form */
+        .contact-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .contact-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+        }
+        
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-group label i {
+            font-size: 1.2rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2);
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #95a5a6;
+        }
+        
+        .contact-container p {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #bdc3c7;
+            line-height: 1.6;
+        }
+        
+        /* Back Button */
+        .back-btn-container {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+        }
+        
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .back-btn:hover {
+            background: rgba(26, 188, 156, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Submit Button */
+        .submit-btn {
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.9rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(26, 188, 156, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(26, 188, 156, 0.4);
+        }
+        
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .submit-btn:hover::after {
+            left: 100%;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #95a5a6;
+        }
+        
+        /* Contact Info */
+        .contact-info {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            background: rgba(26, 188, 156, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .info-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: var(--accent);
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(10px, 15px);
+            }
+            50% {
+                transform: translate(-5px, 20px);
+            }
+            75% {
+                transform: translate(15px, -10px);
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .contact-container {
+                padding: 1.5rem;
+            }
+            
+            .back-btn-container {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .info-card {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Elements -->
+    <div class="background-elements">
+        <div class="circle" style="width: 300px; height: 300px; top: 10%; left: 5%;"></div>
+        <div class="circle" style="width: 150px; height: 150px; top: 70%; left: 80%;"></div>
+        <div class="square" style="width: 200px; height: 200px; top: 20%; left: 85%;"></div>
+        <div class="square" style="width: 120px; height: 120px; top: 65%; left: 10%;"></div>
+        <div class="triangle" style="border-width: 0 100px 170px 100px; top: 40%; left: 25%;"></div>
+        <div class="triangle" style="border-width: 0 70px 120px 70px; top: 80%; left: 70%;"></div>
+    </div>
+    
+    <div class="container">
+        <div class="back-btn-container">
+            <a href="Dashboard.php" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+        
+        <header>
+            <div class="logo">
+                <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <h1>Contact Us</h1>
+            <p class="tagline">We'd love to hear from you! Please fill out the form below to get in touch with our team.</p>
+        </header>
+        
+        <div class="contact-container">
+            <p>Have questions about our Face Recognition Presence System? Need technical support? Or just want to share your feedback? Our team is here to help you. We'll get back to you as soon as possible.</p>
+            
+            <form action="contactUs.php" method="post" class="contact-form">
+                <div class="form-group">
+                    <label for="name"><i class="fas fa-user"></i> Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject"><i class="fas fa-tag"></i> Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="Enter the subject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message"><i class="fas fa-comment-alt"></i> Message</label>
+                    <textarea id="message" name="message" placeholder="Write your message here" required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+            
+            <div class="contact-info">
+                <div class="info-card">
+                    <div class="info-icon" style="background: #e74c3c;">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <h3>Our Location</h3>
+                        <p>Pune, Maharashtra</p>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-icon" style="background: #9b59b6;">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="info-content">
+                        <h3>Call Us</h3>
+                        <p>+91 9689154024</p>
+                        <p>+91 9921989670</p>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-icon" style="background: #2ecc71;">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="info-content">
+                        <h3>Email Us</h3>
+                        <p>sakibbhaisk7@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Face Recognition Presence System | TYBBA(CA) Sem V Project</p>
+        <p>© 2025 Developed by Sakib Shaikh & Swapnil Salunke</p>
+    </footer>
+    
+    <script>
+        function createBackgroundElements() {
+            const container = document.querySelector('.background-elements');
+            const types = ['circle', 'square', 'triangle'];
+            const colors = [
+                'rgba(26, 188, 156, 0.05)',
+                'rgba(52, 152, 219, 0.05)',
+                'rgba(155, 89, 182, 0.05)',
+                'rgba(231, 76, 60, 0.05)'
+            ];
+            
+            for (let i = 0; i < 8; i++) {
+                const type = types[Math.floor(Math.random() * types.length)];
+                const element = document.createElement('div');
+                element.className = type;
+                
+                // Random size
+                const size = Math.random() * 150 + 50;
+                
+                // Random position
+                const top = Math.random() * 100;
+                const left = Math.random() * 100;
+                
+                // Random animation duration
+                const duration = Math.random() * 20 + 10;
+                
+                // Set styles
+                element.style.width = `${size}px`;
+                element.style.height = type === 'triangle' ? '0' : `${size}px`;
+                
+                if (type === 'triangle') {
+                    const borderWidth = size / 2;
+                    element.style.borderWidth = `0 ${borderWidth}px ${size}px ${borderWidth}px`;
+                    element.style.borderColor = `transparent transparent ${colors[Math.floor(Math.random() * colors.length)]} transparent`;
+                } else {
+                    element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                }
+                
+                element.style.top = `${top}%`;
+                element.style.left = `${left}%`;
+                element.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                element.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(element);
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createBackgroundElements();
+            
+            // Form submission animation
+            const form = document.querySelector('.contact-form');
+            const submitBtn = document.querySelector('.submit-btn');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Save original button content
+                const originalContent = submitBtn.innerHTML;
+                
+                // Show loading state
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                submitBtn.disabled = true;
+                
+                // Simulate form submission
+                setTimeout(() => {
+                    // Show success state
+                    submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+                    submitBtn.style.background = 'linear-gradient(to right, #2ecc71, #27ae60)';
+                    
+                    // Reset after a delay
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalContent;
+                        submitBtn.disabled = false;
+                        submitBtn.style.background = 'linear-gradient(to right, var(--accent), var(--secondary))';
+                        
+                        // Actually submit the form after animation
+                        form.submit();
+                    }, 2000);
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>

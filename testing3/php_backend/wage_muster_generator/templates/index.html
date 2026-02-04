@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online Wage Muster Generator</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+            border-bottom: 5px solid #ff9800;
+        }
+        
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #3949ab 0%, #303f9f 100%);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 18px 25px;
+            font-size: 1.1rem;
+            border: none;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #3949ab;
+            box-shadow: 0 0 0 0.25rem rgba(57, 73, 171, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3949ab 0%, #283593 100%);
+            border: none;
+            padding: 14px 30px;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #283593 0%, #1a237e 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(57, 73, 171, 0.3);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+            border: none;
+            padding: 14px 30px;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .file-upload {
+            border: 3px dashed #bbdefb;
+            border-radius: 15px;
+            padding: 50px 30px;
+            text-align: center;
+            background: #f8fdff;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .file-upload:hover {
+            border-color: #3949ab;
+            background: #e8f4fc;
+            transform: scale(1.01);
+        }
+        
+        .file-upload.dragover {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+        
+        .excel-icon {
+            color: #217346;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, #3949ab 0%, #283593 100%);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            box-shadow: 0 5px 15px rgba(57, 73, 171, 0.3);
+        }
+        
+        .step-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: #1a237e;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #3949ab;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #3949ab;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a237e;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .alert-success-custom {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 1px solid #81c784;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .table-custom {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .table-custom th {
+            background: linear-gradient(135deg, #3949ab 0%, #283593 100%);
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 15px;
+        }
+        
+        .table-custom td {
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+        
+        .footer {
+            background: #1a237e;
+            color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #e0e0e0;
+            border-top: 5px solid #3949ab;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .compliance-note {
+            background: #fff3e0;
+            border: 1px solid #ffb74d;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fas fa-calculator me-2"></i>FREE WAGE MUSTER GENERATOR</h1>
+            <p>Indian Labour Statutory Compliance (PF, ESIC, Bonus) • No Database • 100% Free</p>
+            <div class="badges">
+                <span class="badge"><i class="fas fa-shield-alt me-1"></i> PF Compliance</span>
+                <span class="badge"><i class="fas fa-hospital me-1"></i> ESIC Compliance</span>
+                <span class="badge"><i class="fas fa-gift me-1"></i> Bonus Act 1965</span>
+                <span class="badge"><i class="fas fa-file-invoice-dollar me-1"></i> Professional Tax</span>
+                <span class="badge"><i class="fas fa-hand-holding-usd me-1"></i> EDLI</span>
+                <span class="badge"><i class="fas fa-lock me-1"></i> Secure & Private</span>
+            </div>
+        </div>
+        
+        <!-- Success Message -->
+        {% if success %}
+        <div class="alert-success-custom">
+            <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-check-circle fa-2x text-success me-3"></i>
+                <div>
+                    <h4 class="mb-1">Wage Muster Generated Successfully!</h4>
+                    <p class="mb-0">Your wage muster has been generated with {{ metadata.employee_count }} employees.</p>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Net Pay</div>
+                    <div class="stat-value text-success">₹{{ "%.2f"|format(metadata.total_net_pay) }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total EPF</div>
+                    <div class="stat-value text-primary">₹{{ "%.2f"|format(metadata.total_epf) }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total ESIC</div>
+                    <div class="stat-value text-info">₹{{ "%.2f"|format(metadata.total_esic) }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Organization</div>
+                    <div class="stat-value" style="font-size: 1.2rem;">{{ metadata.org_name }}</div>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-3 mt-4">
+                <a href="{{ url_for('download_file', filename=metadata.output_filename) }}" class="btn btn-success flex-fill">
+                    <i class="fas fa-download me-2"></i>Download Wage Muster Excel
+                </a>
+                <a href="{{ url_for('index') }}" class="btn btn-outline-primary flex-fill">
+                    <i class="fas fa-redo me-2"></i>Generate Another
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="row p-4">
+            <!-- Left Column: Input Form -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-edit me-2"></i>ENTER WAGE MUSTER DETAILS
+                    </div>
+                    <div class="card-body">
+                        <form id="wageForm" method="POST" action="{{ url_for('generate_wage_muster') }}" enctype="multipart/form-data">
+                            <!-- Step 1: Organization Details -->
+                            <div class="step-indicator">
+                                <div class="step-number">1</div>
+                                <div>
+                                    <h5 class="step-title">Organization Details</h5>
+                                    <p class="text-muted mb-0">Fill in your organization and contract details</p>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label for="org_name" class="form-label">Name of Organization *</label>
+                                    <input type="text" class="form-control" id="org_name" name="org_name" required placeholder="e.g., PWD, Municipal Corporation">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="tender_number" class="form-label">Tender Number *</label>
+                                    <input type="text" class="form-control" id="tender_number" name="tender_number" required placeholder="Contract/Tender reference number">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="month" class="form-label">Month *</label>
+                                    <input type="text" class="form-control" id="month" name="month" placeholder="DEC-2025" required>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="contractor_name" class="form-label">Contractor / Company Name *</label>
+                                    <input type="text" class="form-control" id="contractor_name" name="contractor_name" required placeholder="Name of the contracting company">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="work_location" class="form-label">Factory / Work Location Name *</label>
+                                    <input type="text" class="form-control" id="work_location" name="work_location" required placeholder="Site/Project location address">
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2: Upload Attendance -->
+                            <div class="step-indicator">
+                                <div class="step-number">2</div>
+                                <div>
+                                    <h5 class="step-title">Upload Attendance Excel File</h5>
+                                    <p class="text-muted mb-0">Upload Excel file with employee attendance data</p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-box mb-4">
+                                <h6><i class="fas fa-info-circle me-2 text-primary"></i>Required Columns (flexible names):</h6>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <ul class="mb-0">
+                                            <li>SR.NO (or ID, Serial No)</li>
+                                            <li>NAME OF EMPLOYEE</li>
+                                            <li>CATEGORY/Designation</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="mb-0">
+                                            <li>WORKING DAYS</li>
+                                            <li>ATTENDANCE/ATN</li>
+                                            <li>GENDER/Sex (M/F)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="file-upload" id="fileUploadArea">
+                                    <i class="fas fa-file-excel excel-icon"></i>
+                                    <h5 class="mb-3">Drag & Drop Attendance Excel File Here</h5>
+                                    <p class="text-muted mb-4">or click to browse from your computer</p>
+                                    <input type="file" class="form-control d-none" id="attendance_file" name="attendance_file" accept=".xlsx,.xls" required>
+                                    <button type="button" class="btn btn-outline-primary btn-lg px-4" onclick="document.getElementById('attendance_file').click()">
+                                        <i class="fas fa-folder-open me-2"></i>Browse Files
+                                    </button>
+                                </div>
+                                <div class="file-info mt-3" id="fileInfo" style="display: none;">
+                                    <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded">
+                                        <div>
+                                            <h6 class="mb-1" id="fileName"></h6>
+                                            <small class="text-muted" id="fileSize"></small>
+                                        </div>
+                                        <div>
+                                            <span id="validationBadge" class="badge bg-success me-2"></span>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearFile()">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2" id="validationResult"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3: Generate -->
+                            <div class="step-indicator">
+                                <div class="step-number">3</div>
+                                <div>
+                                    <h5 class="step-title">Generate Wage Muster</h5>
+                                    <p class="text-muted mb-0">Click to generate your wage muster with all statutory calculations</p>
+                                </div>
+                            </div>
+                            
+                            <div class="loading-spinner" id="loadingSpinner">
+                                <div class="spinner"></div>
+                                <p class="mt-3 text-muted">Processing your wage muster... This may take a moment.</p>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-lg w-100 py-3" id="submitBtn">
+                                <i class="fas fa-calculator me-2"></i>GENERATE WAGE MUSTER
+                            </button>
+                            
+                            <div class="compliance-note mt-4">
+                                <i class="fas fa-lock me-2 text-warning"></i>
+                                <strong>100% Secure:</strong> Your data is processed locally and not stored in any database. Files are automatically deleted after 24 hours.
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column: Information -->
+            <div class="col-lg-4">
+                <!-- How It Works -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-play-circle me-2"></i>HOW IT WORKS
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex mb-3">
+                            <div class="step-number" style="width: 40px; height: 40px; font-size: 1rem;">1</div>
+                            <div class="ms-3">
+                                <h6 class="mb-1">Upload Attendance Excel</h6>
+                                <p class="small text-muted mb-0">Upload Excel with employee attendance data (flexible format)</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <div class="step-number" style="width: 40px; height: 40px; font-size: 1rem;">2</div>
+                            <div class="ms-3">
+                                <h6 class="mb-1">Automatic Calculations</h6>
+                                <p class="small text-muted mb-0">System computes wages, PF, ESIC, Bonus, PT automatically</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="step-number" style="width: 40px; height: 40px; font-size: 1rem;">3</div>
+                            <div class="ms-3">
+                                <h6 class="mb-1">Download Wage Muster</h6>
+                                <p class="small text-muted mb-0">Get professionally formatted Excel ready for audit</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Calculation Rules -->
+                <!-- इस section को: -->
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-calculator me-2"></i>CALCULATION RULES
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-sm table-borderless">
+                <tbody>
+                    <tr>
+                        <td class="text-primary" width="30"><i class="fas fa-rupee-sign"></i></td>
+                        <td><small><strong>Daily Wage:</strong> Unskilled: ₹805, Semi: ₹893, Skilled: ₹981, High: ₹1065</small></td>
+                    </tr>
+                    <tr>
+                        <td class="text-primary"><i class="fas fa-percentage"></i></td>
+                        <td><small><strong>EPF @12%:</strong> On EDLI (min of earned wage and ₹15,000)</small></td>
+                    </tr>
+                    <tr>
+                        <td class="text-primary"><i class="fas fa-hospital"></i></td>
+                        <td><small><strong>ESIC @0.75%:</strong> Only for Unskilled category</small></td>
+                    </tr>
+                    <tr>
+                        <td class="text-primary"><i class="fas fa-gift"></i></td>
+                        <td><small><strong>Bonus @8.33%:</strong> Only for Unskilled category</small></td>
+                    </tr>
+                    <tr>
+                        <td class="text-primary"><i class="fas fa-user"></i></td>
+                        <td><small><strong>PT (Male):</strong> &lt;₹7500: ₹0, ₹7500-₹10000: ₹175, &gt;₹10000: ₹200</small></td>
+                    </tr>
+                    <tr>
+                        <td class="text-primary"><i class="fas fa-user-female"></i></td>
+                        <td><small><strong>PT (Female):</strong> ≤₹25000: ₹0, &gt;₹25000: ₹200</small></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+                
+                <!-- Sample Excel Format -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-table me-2"></i>SAMPLE EXCEL FORMAT
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-custom mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>SR.NO</th>
+                                        <th>NAME</th>
+                                        <th>CATEGORY</th>
+                                        <th>WORK DAYS</th>
+                                        <th>ATTN</th>
+                                        <th>GENDER</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>RAJESH KUMAR</td>
+                                        <td>Unskilled</td>
+                                        <td>26</td>
+                                        <td>24</td>
+                                        <td>Male</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>PRIYA SHARMA</td>
+                                        <td>Semi-Skilled</td>
+                                        <td>26</td>
+                                        <td>26</td>
+                                        <td>Female</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="p-3">
+                            <button class="btn btn-outline-primary w-100" onclick="downloadSample()">
+                                <i class="fas fa-download me-2"></i>Download Sample Template
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="container">
+                <p class="mb-3">© 2025 Free Online Wage Muster Generator | Developed for Indian Payroll Compliance</p>
+                <p class="text-light mb-0" style="opacity: 0.8;">
+                    This tool follows Indian labour statutory rules (PF, ESIC, Bonus Act, Professional Tax). 
+                    For official compliance, verify with your legal advisor.
+                </p>
+                <div class="mt-3">
+                    <span class="badge bg-light text-dark me-2"><i class="fas fa-database-slash"></i> No Database</span>
+                    <span class="badge bg-light text-dark me-2"><i class="fas fa-bolt"></i> Fast Processing</span>
+                    <span class="badge bg-light text-dark"><i class="fas fa-unlock"></i> Completely Free</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // File upload handling
+        const fileInput = document.getElementById('attendance_file');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const validationResult = document.getElementById('validationResult');
+        const validationBadge = document.getElementById('validationBadge');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const submitBtn = document.getElementById('submitBtn');
+        const wageForm = document.getElementById('wageForm');
+        
+        // Drag and drop functionality
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+        
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
+        });
+        
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelection();
+            }
+        });
+        
+        fileInput.addEventListener('change', handleFileSelection);
+        
+        function handleFileSelection() {
+            if (fileInput.files.length) {
+                const file = fileInput.files[0];
+                const fileSizeKB = (file.size / 1024).toFixed(2);
+                
+                fileName.textContent = file.name;
+                fileSize.textContent = `${fileSizeKB} KB`;
+                fileInfo.style.display = 'block';
+                
+                // Validate file extension
+                if (!file.name.match(/\.(xlsx|xls)$/i)) {
+                    validationResult.innerHTML = `
+                        <div class="alert alert-danger mt-2 p-2">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Only .xlsx and .xls files are allowed!
+                        </div>
+                    `;
+                    validationBadge.innerHTML = '<i class="fas fa-times me-1"></i>Invalid';
+                    validationBadge.className = 'badge bg-danger';
+                    submitBtn.disabled = true;
+                    return;
+                }
+                
+                // Show loading for validation
+                validationBadge.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Validating';
+                validationBadge.className = 'badge bg-warning';
+                validationResult.innerHTML = `
+                    <div class="alert alert-info mt-2 p-2">
+                        <i class="fas fa-spinner fa-spin me-2"></i>
+                        Validating Excel format...
+                    </div>
+                `;
+                
+                // Send file for validation via AJAX
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                fetch('/api/validate-excel', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.valid) {
+                        validationResult.innerHTML = `
+                            <div class="alert alert-success mt-2 p-2">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Valid Excel format! ${data.row_count} employee records detected.
+                            </div>
+                        `;
+                        validationBadge.innerHTML = `<i class="fas fa-check me-1"></i>${data.row_count} Records`;
+                        validationBadge.className = 'badge bg-success';
+                        submitBtn.disabled = false;
+                    } else {
+                        validationResult.innerHTML = `
+                            <div class="alert alert-danger mt-2 p-2">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                ${data.error || 'Invalid Excel format'}
+                            </div>
+                        `;
+                        validationBadge.innerHTML = '<i class="fas fa-times me-1"></i>Invalid';
+                        validationBadge.className = 'badge bg-danger';
+                        submitBtn.disabled = true;
+                    }
+                })
+                .catch(error => {
+                    validationResult.innerHTML = `
+                        <div class="alert alert-danger mt-2 p-2">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Validation failed: ${error.message}
+                        </div>
+                    `;
+                    validationBadge.innerHTML = '<i class="fas fa-times me-1"></i>Error';
+                    validationBadge.className = 'badge bg-danger';
+                    submitBtn.disabled = true;
+                });
+            }
+        }
+        
+        function clearFile() {
+            fileInput.value = '';
+            fileInfo.style.display = 'none';
+            validationResult.innerHTML = '';
+            submitBtn.disabled = false;
+        }
+        
+        // Form submission handling
+        wageForm.addEventListener('submit', function(e) {
+            // Basic form validation
+            const requiredFields = wageForm.querySelectorAll('[required]');
+            let valid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    valid = false;
+                    field.classList.add('is-invalid');
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+            
+            if (!valid) {
+                e.preventDefault();
+                alert('Please fill all required fields marked with *');
+                return;
+            }
+            
+            // Show loading spinner
+            loadingSpinner.style.display = 'block';
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>PROCESSING...';
+        });
+        
+        // Download sample template
+        function downloadSample() {
+            // Create sample data in CSV format
+            const sampleData = [
+                ['SR.NO', 'NAME OF EMPLOYEE', 'CATEGORY', 'WORKING DAYS', 'ATTENDANCE', 'GENDER'],
+                ['1', 'RAJESH KUMAR', 'Unskilled', '26', '24', 'Male'],
+                ['2', 'PRIYA SHARMA', 'Semi-Skilled', '26', '26', 'Female'],
+                ['3', 'AMIT SINGH', 'Unskilled', '26', '22', 'Male'],
+                ['4', 'SUNITA DEVI', 'Skilled', '26', '25', 'Female'],
+                ['5', 'VIJAY PATEL', 'High Skilled', '26', '26', 'Male']
+            ];
+            
+            // Convert to CSV
+            const csvContent = sampleData.map(row => row.join(',')).join('\n');
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'sample_attendance_template.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            alert('Sample template downloaded as CSV. Save it as Excel (.xlsx) and fill your data.');
+        }
+        
+        // Auto-fill month with current month
+        window.onload = function() {
+            const now = new Date();
+            const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 
+                               'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+            const currentMonth = monthNames[now.getMonth()];
+            const currentYear = now.getFullYear();
+            document.getElementById('month').value = `${currentMonth}-${currentYear}`;
+            
+            // Set focus to first input
+            document.getElementById('org_name').focus();
+        };
+    </script>
+</body>
+</html>
