@@ -9,7 +9,7 @@ if (isset($_SESSION['mobile']) && isset($_SESSION['pending_employee'])) {
     $mobile = $_SESSION['mobile'];
 
  
-    $API = "6fd6b030c6afec018415662d0db43f9d"; 
+    $API = "your-api-key"; 
     $URL = "https://sms.renflair.in/V1.php?API=$API&PHONE=$mobile&OTP=$otp";
 
     $curl = curl_init($URL);
@@ -21,4 +21,5 @@ if (isset($_SESSION['mobile']) && isset($_SESSION['pending_employee'])) {
 } else {
     echo json_encode(['success' => false]);
 }
+
 ?>
