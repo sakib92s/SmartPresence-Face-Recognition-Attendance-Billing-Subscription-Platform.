@@ -8,11 +8,12 @@ pyttsx3==2.90
 openpyxl==3.1.5
 reportlab==4.2.2
 
-# --- Optional / Additional Tools ---
+# --- Web & API ---
+flask==3.0.3
+werkzeug==3.0.3
+
+# --- Optional / AI & ML (Only if used) ---
 dlib==19.24.2
 scikit-learn==1.5.1
 tensorflow==2.16.1
 keras==3.3.3
-
-# --- GUI and Utility Libraries ---
-tk
