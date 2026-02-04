@@ -1,36 +1,49 @@
 php_backend/
-├── about.html
-├── connect.php
-├── contactUs.html
-├── contactUs.php
-├── Dashboard.php
-├── Employee-otp.php
-├── Employee-Verify-otp.php
-├── employeeForm.html
-├── employeeForm.php
-├── HrLogin.html
-├── HrLogin.php
-├── login.html
-├── login.php
-├── logout.php
-├── main.py
-├── organization.sql
-├── otp.php
-├── register.php
-├── resend_otp.php
-├── search_employee.php
-├── start.html
-├── wage_muster.php          ← NEW FILE
-├── wage_muster_generate.php ← NEW FILE
-├── wage_muster_download.php ← NEW FILE
-├── wage_muster_utils.php    ← NEW FILE
-│
-├── attendance_reports/
-├── data/
-├── face_cascade/
-├── images/
-├── temp_uploads/
-├── training/
-├── uploads/
-├── wage_muster_templates/   ← NEW FOLDER
-└── generated_wage_musters/  ← NEW FOLDER
++-- about.html
++-- connect.php
++-- contactUs.html
++-- contactUs.php
++-- Dashboard.php
++-- Employee-otp.php
++-- Employee-Verify-otp.php
++-- employeeForm.html
++-- employeeForm.php
++-- HrLogin.html
++-- HrLogin.php
++-- login.html
++-- login.php
++-- logout.php
++-- main.py
++-- organization.sql
++-- otp.php
++-- register.php
++-- resend_otp.php
++-- search_employee.php
++-- start.html
++-- wage_muster.php          
++-- wage_muster_generate.php 
++-- wage_muster_download.php 
++-- wage_muster_utils.php    
+¦
++-- attendance_reports/
++-- data/
++-- face_cascade/
++-- images/
++-- temp_uploads/
++-- training/
++-- uploads/
++-- wage_muster_generator/ 
+	+-- app.py
+	+-- run_flask.py 
+	+-- generated/
+	+-- templates/
+	+-- uploads/
+	+-- utils/
+		+-- excel_reader.py
+		+-- excel_writer.py
+		+-- wage_calculator.py
+
+
+
+
+ 
