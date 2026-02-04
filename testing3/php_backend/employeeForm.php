@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['OTP'] = $otp;
             $_SESSION['mobile'] = $mobile;
 
-            $API = "6fd6b030c6afec018415662d0db43f9d"; 
+            $API = "YOUR-API-KEY"; 
             $URL = "https://sms.renflair.in/V1.php?API=$API&PHONE=$mobile&OTP=$otp";
 
             $curl = curl_init($URL);
@@ -101,4 +101,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
+
 ?>
